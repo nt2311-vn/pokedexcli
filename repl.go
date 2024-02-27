@@ -18,7 +18,18 @@ func startRepl() {
 
 		cleaned := cleanInput(text)
 
-		fmt.Println("echoing: ", cleaned)
+		if len(cleaned) == 0 {
+			continue
+		}
+
+		command := cleaned[0]
+
+		switch command {
+		case "exit":
+			os.Exit(0)
+		default:
+			fmt.Println("Invalid command")
+		}
 
 	}
 }
