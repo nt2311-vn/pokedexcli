@@ -5,8 +5,10 @@ import "fmt"
 func callbackHelp() {
 	fmt.Println("Welcome to Pokedex help menu!")
 	fmt.Println("Here are your available commands:")
-	fmt.Println(" - help")
-	fmt.Println(" - exit")
-	fmt.Println("")
+	availableCommands := getCommands()
+
+	for _, command := range availableCommands {
+		fmt.Printf("- %v  %v\n", command.name, command.description)
+	}
 	fmt.Println("")
 }

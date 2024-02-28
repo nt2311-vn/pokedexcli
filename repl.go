@@ -22,14 +22,18 @@ func startRepl() {
 			continue
 		}
 
-		command := cleaned[0]
+		commandName := cleaned[0]
 
-		switch command {
-		case "help":
-		case "exit":
-		default:
+		availableCommands := getCommands()
+
+		command, ok := availableCommands[commandName]
+
+		if !ok {
 			fmt.Println("Invalid command")
+			continue
 		}
+
+		command.callback()
 
 	}
 }
