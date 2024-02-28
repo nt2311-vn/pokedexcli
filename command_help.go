@@ -8,7 +8,7 @@ func callbackHelp() {
 	availableCommands := getCommands()
 
 	for _, command := range availableCommands {
-		fmt.Printf("- %v  %v\n", command.name, command.description)
+		fmt.Printf("- %s: %s\n", command.name, command.description)
 	}
 	fmt.Println("")
 }
