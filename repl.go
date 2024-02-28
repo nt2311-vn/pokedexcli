@@ -11,7 +11,7 @@ func startRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		fmt.Print(" >")
+		fmt.Print(" pokedexcli>")
 		scanner.Scan()
 
 		text := scanner.Text()
