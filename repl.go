@@ -40,6 +40,12 @@ func startRepl() {
 	}
 }
 
+type cliCommand struct {
+	name        string
+	description string
+	callback    func()
+}
+
 func cleanInput(str string) []string {
 	lowered := strings.ToLower(str)
 	words := strings.Fields(lowered)
