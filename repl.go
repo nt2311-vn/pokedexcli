@@ -32,9 +32,7 @@ func startRepl() {
 			fmt.Println("Invalid command")
 			continue
 		}
-
 		command.callback()
-
 	}
 }
 
@@ -50,6 +48,11 @@ func getCommands() map[string]cliCommand {
 			name:        "help",
 			description: "Print the help menu",
 			callback:    callbackHelp,
+		},
+		"map": {
+			name:        "map",
+			description: "List some location areas",
+			callback:    callbackMap,
 		},
 		"exit": {
 			name:        "exit",
