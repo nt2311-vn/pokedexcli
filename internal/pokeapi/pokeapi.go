@@ -3,16 +3,22 @@ package pokeapi
 import (
 	"net/http"
 	"time"
+
+	"github.com/nt2311-vn/pokedexcli/pokecache"
 )
 
 const baseURL = "https://pokeapi.co/api/v2"
 
 type Client struct {
+	cache      pokecache.Cache
 	httpClient http.Client
 }
 
-func NewClient() Client {
+func NewClient(cacheInterval time.Duration) Client {
 	return Client{
-		httpClient: http.Client{Timeout: time.Minute},
+		cache: pokecache.NewCache(cacheInterval),
+		httpClient: http.Client{
+			Timeout: time.Minute,
+		},
 	}
 }
