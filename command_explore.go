@@ -1,21 +1,28 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
-func callbackExplore(cfg *config) error {
-	res, err := cfg.pokeapiClient.ListLocationAreas(cfg.nextLocationAreaURL)
+func callbackExplore(cfg *config, args ...string) error {
+	if len(args) != 1 {
+		return errors.New("No proper location area provided")
+	}
+
+	locationAreaName := args[0]
+
+	locationArea, err := cfg.pokeapiClient.GetLocationArea(locationAreaName)
 	if err != nil {
 		return err
 	}
-	fmt.Println("Location areas")
 
-	for _, area := range res.Results {
-		fmt.Printf("- %s\n", area.Name)
+	fmt.Printf("Pokemon in %s:\n", locationAreaName)
+
+	for _, pokemon := range locationArea.PokemonEncounters {
+		fmt.Printf("- %s\n", pokemon.Pokemon.Name)
 	}
 	fmt.Println("")
-
-	cfg.nextLocationAreaURL = res.Next
-	cfg.prevLocationAreaURL = res.Previous
 
 	return nil
 }
