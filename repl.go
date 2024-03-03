@@ -42,7 +42,7 @@ func startRepl(cfg *config) {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -61,6 +61,11 @@ func getCommands() map[string]cliCommand {
 			name:        "map back",
 			description: "List the previous location areas",
 			callback:    callbackMapb,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Explore the pokemon can encounter in the area",
+			callback:    callbackExplore(cf),
 		},
 		"exit": {
 			name:        "exit",
