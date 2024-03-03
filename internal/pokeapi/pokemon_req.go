@@ -1,6 +1,11 @@
 package pokeapi
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
 
 func (c *Client) GetPokemon(pokemonName string) (Pokemon, error) {
 	endpoint := "/pokemon/" + pokemonName
@@ -20,4 +25,43 @@ func (c *Client) GetPokemon(pokemonName string) (Pokemon, error) {
 		return pokemon, nil
 
 	}
+
+
+	req, err := http.NewRequest("GET", fullURL, nil)
+
+	if err != nil {
+		return Pokemon{}, nil
+	}
+
+
+	resp, err := c.httpClient.Do(req)
+
+	if err != nil {
+		return Pokemon{}, err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode > 399 {
+		return Pokemon{}, fmt.Errorf("Bad status code: %d", resp.StatusCode)
+	}
+
+	data, err = io.ReadAll(resp.Body)
+
+
+	if err != nil {
+		return Pokemon{}, err
+	}
+
+	pokemon := Pokemon{}
+
+	err = json.Unmarshal(data, &pokemon)
+
+	if err != nil {
+		return Pokemon{}, err
+	}
+
+	c.cache.Add(fullURL, data)
+
+	return pokemon, nil
 }
